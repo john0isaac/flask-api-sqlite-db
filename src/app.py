@@ -29,7 +29,7 @@ else:
     setup_db(app)
     # db_drop_and_create_all(app)
 
-PAGINATION_PER_PAGE = 10
+PAGINATION_PER_PAGE = 2
 
 def paginate_results(flask_request, selection):
     page = flask_request.args.get('page', 1, type=int)
@@ -57,8 +57,28 @@ def get_all_tests():
         'total_test_cases': len(TestCase.query.all())
     })
 
+#----------------------------------------------------------------------------#
+# Errors.
+#----------------------------------------------------------------------------#
+
+@app.errorhandler(400)
+def bad_request(error):
+    return jsonify({
+        "success": False,
+        "error": error.code,
+        "message": error.description
+    }), error.code
+
 @app.errorhandler(404)
 def not_found(error):
+    return jsonify({
+        "success": False,
+        "error": error.code,
+        "message": error.description
+    }), error.code
+
+@app.errorhandler(405)
+def method_not_allowed(error):
     return jsonify({
         "success": False,
         "error": error.code,
@@ -73,16 +93,8 @@ def unprocessable(error):
         "message": error.description
     }), error.code
 
-@app.errorhandler(400)
-def bad_request(error):
-    return jsonify({
-        "success": False,
-        "error": error.code,
-        "message": error.description
-    }), error.code
-
-@app.errorhandler(405)
-def method_not_allowed(error):
+@app.errorhandler(500)
+def internal_server_error(error):
     return jsonify({
         "success": False,
         "error": error.code,
