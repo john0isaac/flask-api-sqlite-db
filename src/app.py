@@ -43,7 +43,7 @@ def paginate_results(flask_request, selection):
 
 @app.route('/')
 def index():
-    return "Welcome to the Test Case Execution API"
+    abort(404)
 
 @app.route('/tests')
 def get_all_tests():
@@ -61,33 +61,33 @@ def get_all_tests():
 def not_found(error):
     return jsonify({
         "success": False,
-        "error": 404,
-        "message": "Not found"
-    }), 404
+        "error": error.code,
+        "message": error.description
+    }), error.code
 
 @app.errorhandler(422)
 def unprocessable(error):
     return jsonify({
         "success": False,
-        "error": 422,
-        "message": "unprocessable"
-    }), 422
+        "error": error.code,
+        "message": error.description
+    }), error.code
 
 @app.errorhandler(400)
 def bad_request(error):
     return jsonify({
         "success": False,
-        "error": 400,
-        "message": "bad request"
-    }), 400
+        "error": error.code,
+        "message": error.description
+    }), error.code
 
 @app.errorhandler(405)
 def method_not_allowed(error):
     return jsonify({
         "success": False,
-        "error": 405,
-        "message": "method not allowed"
-    }), 405
+        "error": error.code,
+        "message": error.description
+    }), error.code
 
 if __name__ == '__main__':
     app.run()
