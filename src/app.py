@@ -1,3 +1,4 @@
+import logging
 import os
 
 from flask import Flask, abort, jsonify, request
@@ -30,12 +31,12 @@ def create_app(test_config=None):
     # Load configuration for prod vs. dev
     is_prod_env = "RUNNING_IN_PRODUCTION" in os.environ
     if not is_prod_env:
-        print("Loading config.development.")
+        logging.info("Loading config.development.")
         app.config.from_object("src.config.development")
         setup_db(app)
         # db_drop_and_create_all(app)
     else:
-        print("Loading config.production.")
+        logging.info("Loading config.production.")
         app.config.from_object("src.config.production")
         setup_db(app)
         # db_drop_and_create_all(app)

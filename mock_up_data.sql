@@ -1,5 +1,3 @@
-GRANT ALL PRIVILEGES ON DATABASE testdb TO john;
-
 -- TestCase
 INSERT INTO `test_case` VALUES (1, 'First Test', 'First Test Description');
 INSERT INTO `test_case` VALUES (2, 'Second Test', NULL);
