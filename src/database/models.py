@@ -10,38 +10,45 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from datetime import datetime
 
+
 class Base(DeclarativeBase):
     pass
 
+
 db = SQLAlchemy(model_class=Base)
 
-'''
+"""
     setup_db(app)
     binds a flask application and a SQLAlchemy service
-'''
+"""
+
 
 def setup_db(app):
-    app.config["SQLALCHEMY_DATABASE_URI"] = app.config.get('DATABASE_URI')
+    app.config["SQLALCHEMY_DATABASE_URI"] = app.config.get("DATABASE_URI")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
     with app.app_context():
         db.create_all()
 
-'''
+
+"""
     db_drop_and_create_all()
     drops the database tables and starts fresh
     can be used to initialize a clean database
-'''
+"""
+
 
 def db_drop_and_create_all(app):
     with app.app_context():
         db.drop_all()
         db.create_all()
 
-#----------------------------------------------------------------------------#
+
+# ----------------------------------------------------------------------------#
 # Models.
-#----------------------------------------------------------------------------#
+# ----------------------------------------------------------------------------#
+
 
 class TestCase(db.Model):
     __tablename__ = "test_case"
@@ -67,11 +74,8 @@ class TestCase(db.Model):
         db.session.commit()
 
     def format(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'description': self.description
-        }
+        return {"id": self.id, "name": self.name, "description": self.description}
+
 
 class Asset(db.Model):
     __tablename__ = "asset"
@@ -95,10 +99,8 @@ class Asset(db.Model):
         db.session.commit()
 
     def format(self):
-        return {
-            'id': self.id,
-            'name': self.name
-        }
+        return {"id": self.id, "name": self.name}
+
 
 class Execution(db.Model):
     __tablename__ = "execution"
@@ -131,10 +133,10 @@ class Execution(db.Model):
 
     def format(self):
         return {
-            'id': self.id,
-            'test_case_id': self.test_case_id,
-            'asset_id': self.asset_id,
-            'timestamp': self.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
-            'status': self.status,
-            'details' : self.details
+            "id": self.id,
+            "test_case_id": self.test_case_id,
+            "asset_id": self.asset_id,
+            "timestamp": self.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
+            "status": self.status,
+            "details": self.details,
         }
