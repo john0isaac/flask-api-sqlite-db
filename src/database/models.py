@@ -4,10 +4,11 @@ Models for MySQL
 """
 from typing import List
 
-from sqlalchemy import ForeignKey, String, Boolean
+from sqlalchemy import ForeignKey, String, Boolean, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
+from datetime import datetime
 
 class Base(DeclarativeBase):
     pass
@@ -47,10 +48,12 @@ class TestCase(db.Model):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(String(500), nullable=True)
     executions: Mapped[List["Execution"]] = relationship("Execution", back_populates="test_case")
 
-    def __init__(self, name):
+    def __init__(self, name, description):
         self.name = name
+        self.description = description
 
     def insert(self):
         db.session.add(self)
@@ -66,7 +69,8 @@ class TestCase(db.Model):
     def format(self):
         return {
             'id': self.id,
-            'name': self.name
+            'name': self.name,
+            'description': self.description
         }
 
 class Asset(db.Model):
@@ -104,13 +108,14 @@ class Execution(db.Model):
     test_case: Mapped["TestCase"] = relationship("TestCase", back_populates="executions")
     asset_id: Mapped[int] = mapped_column(ForeignKey("asset.id"))
     asset: Mapped["Asset"] = relationship("Asset", back_populates="executions")
-    passed: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    timestamp: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    status: Mapped[bool] = mapped_column(Boolean, nullable=False)
     details: Mapped[str] = mapped_column(String(500))
 
-    def __init__(self, test_case_id, asset_id, passed, details):
+    def __init__(self, test_case_id, asset_id, status, details):
         self.test_case_id = test_case_id
         self.asset_id = asset_id
-        self.passed = passed
+        self.status = status
         self.details = details
 
     def insert(self):
@@ -129,6 +134,7 @@ class Execution(db.Model):
             'id': self.id,
             'test_case_id': self.test_case_id,
             'asset_id': self.asset_id,
-            'passed': self.passed,
+            'timestamp': self.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
+            'status': self.status,
             'details' : self.details
         }
