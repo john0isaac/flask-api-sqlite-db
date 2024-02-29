@@ -153,7 +153,7 @@ The API will return these error types when the request fails:
 }
 ```
 
-**GET /executions**
+**GET /executions/{asset.id}**
 
 - Sample
 
