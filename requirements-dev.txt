@@ -1,0 +1,11 @@
+-r src/requirements.txt
+
+# Testing Tools
+pytest
+ephemeral-port-reserve
+coverage
+pytest-cov
+
+# Linters
+ruff
+black

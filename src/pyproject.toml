@@ -1,0 +1,15 @@
+[project]
+name = "flaskapp"
+version = "1.0.0"
+description = "API for Managing test cases and their execution results across multiple test assets, with data stored in a SQLite database."
+dependencies = [
+    "Flask==2.3.2",
+    "SQLAlchemy==2.0.17",
+    "Flask-Migrate==4.0.4",
+    "Flask-SQLAlchemy==3.1.1",
+    "mysql-connector-python==8.3.0",
+    ]
+
+[build-system]
+requires = ["flit_core<4"]
+build-backend = "flit_core.buildapi"
