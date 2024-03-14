@@ -5,6 +5,7 @@ Models for MySQL
 from datetime import datetime
 from typing import List
 
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Boolean, DateTime, ForeignKey, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
@@ -15,6 +16,7 @@ class Base(DeclarativeBase):
 
 
 db = SQLAlchemy(model_class=Base)
+migrate = Migrate()
 
 """
     setup_db(app)
@@ -27,6 +29,7 @@ def setup_db(app):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
+    migrate.init_app(app, db)
     with app.app_context():
         db.create_all()
 
@@ -55,7 +58,9 @@ class TestCase(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     description: Mapped[str] = mapped_column(String(500), nullable=True)
-    executions: Mapped[List["Execution"]] = relationship("Execution", back_populates="test_case")
+    executions: Mapped[List["Execution"]] = relationship(
+        "Execution", back_populates="test_case"
+    )
 
     def __init__(self, name, description):
         self.name = name
@@ -81,7 +86,9 @@ class Asset(db.Model):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
-    executions: Mapped[List["Execution"]] = relationship("Execution", back_populates="asset")
+    executions: Mapped[List["Execution"]] = relationship(
+        "Execution", back_populates="asset"
+    )
 
     def __init__(self, name):
         self.name = name
@@ -106,7 +113,9 @@ class Execution(db.Model):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     test_case_id: Mapped[int] = mapped_column(ForeignKey("test_case.id"))
-    test_case: Mapped["TestCase"] = relationship("TestCase", back_populates="executions")
+    test_case: Mapped["TestCase"] = relationship(
+        "TestCase", back_populates="executions"
+    )
     asset_id: Mapped[int] = mapped_column(ForeignKey("asset.id"))
     asset: Mapped["Asset"] = relationship("Asset", back_populates="executions")
     timestamp: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)

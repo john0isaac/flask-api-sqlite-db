@@ -15,9 +15,17 @@ class TestCaseManagementTestCase(unittest.TestCase):
         self.app = create_app(config_override)
         self.client = self.app.test_client
 
-        self.new_test_case = {"name": "New Test Case", "description": "New Test Case Description"}
+        self.new_test_case = {
+            "name": "New Test Case",
+            "description": "New Test Case Description",
+        }
 
-        self.new_execution = {"asset_id": "1", "test_case_id": "1", "status": True, "details": "Success"}
+        self.new_execution = {
+            "asset_id": "1",
+            "test_case_id": "1",
+            "status": True,
+            "details": "Success",
+        }
 
     def tearDown(self):
         """Executed after each test"""
