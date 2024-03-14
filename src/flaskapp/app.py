@@ -49,9 +49,7 @@ def create_app(test_config=None):
 
     @app.route("/")
     def index():
-        return jsonify(
-            {"success": True, "message": "Welcome to the test case management API"}
-        )
+        return jsonify({"success": True, "message": "Welcome to the test case management API"})
 
     # ----------------------------------------------------------------------------#
     # Test cases.
@@ -198,12 +196,7 @@ def create_app(test_config=None):
     @app.route("/executions", methods=["POST"])
     def add_execution():
         body = request.get_json()
-        if (
-            "status" not in body
-            or "details" not in body
-            or "asset_id" not in body
-            or "test_case_id" not in body
-        ):
+        if "status" not in body or "details" not in body or "asset_id" not in body or "test_case_id" not in body:
             abort(
                 400,
                 "The request body must contain 'status', 'details', 'asset_id', and 'test_case_id' fields.",
@@ -251,45 +244,35 @@ def create_app(test_config=None):
     @app.errorhandler(400)
     def bad_request(error):
         return (
-            jsonify(
-                {"success": False, "error": error.code, "message": error.description}
-            ),
+            jsonify({"success": False, "error": error.code, "message": error.description}),
             error.code,
         )
 
     @app.errorhandler(404)
     def not_found(error):
         return (
-            jsonify(
-                {"success": False, "error": error.code, "message": error.description}
-            ),
+            jsonify({"success": False, "error": error.code, "message": error.description}),
             error.code,
         )
 
     @app.errorhandler(405)
     def method_not_allowed(error):
         return (
-            jsonify(
-                {"success": False, "error": error.code, "message": error.description}
-            ),
+            jsonify({"success": False, "error": error.code, "message": error.description}),
             error.code,
         )
 
     @app.errorhandler(422)
     def unprocessable(error):
         return (
-            jsonify(
-                {"success": False, "error": error.code, "message": error.description}
-            ),
+            jsonify({"success": False, "error": error.code, "message": error.description}),
             error.code,
         )
 
     @app.errorhandler(500)
     def internal_server_error(error):
         return (
-            jsonify(
-                {"success": False, "error": error.code, "message": error.description}
-            ),
+            jsonify({"success": False, "error": error.code, "message": error.description}),
             error.code,
         )
 
