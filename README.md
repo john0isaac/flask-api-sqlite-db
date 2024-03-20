@@ -22,7 +22,7 @@ To run the Flask application, follow these steps:
     >**Note** - In Windows, the `venv` does not have a `bin` directory. Therefore, you'd use the analogous command shown below:
 
     ```bash
-    source venv\Scripts\activate
+    source .venv\Scripts\activate
     ```
 
 1. **Install the app as an editable package:**
@@ -44,7 +44,7 @@ To run the Flask application, follow these steps:
     python3 -m flask --app src.flaskapp run --reload
     ```
 
-### Run the tests
+### Development
 
 1. **Inside your virtual environment, execute the following command to install the development requirements:**
 
@@ -52,10 +52,18 @@ To run the Flask application, follow these steps:
     pip install -r requirements-dev.txt
     ```
 
+1. **Execute the following command to install the pre commit hooks:**
+
+    ```bash
+    pre-commit install
+    ```
+
+### Testing
+
 1. **Execute the following command to run the tests**
 
     ```bash
-    python flask_test.py
+    pytest
     ```
 
 ## API Documentation
@@ -218,5 +226,3 @@ The API will return these error types when the request fails:
     "total_executions": 10
 }
 ```
-
-

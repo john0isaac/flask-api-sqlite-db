@@ -2,11 +2,13 @@ import sys
 from unittest import mock
 
 import pytest
-from gunicorn.app.wsgiapp import run
 
 
+@pytest.mark.skipif(sys.platform == "win32", reason="Windows doesn't have what it takes.")
 def test_config_imports():
-    argv = ["gunicorn", "--check-config", "flaskapp:create_app()", "-c", "src/gunicorn.conf.py"]
+    from gunicorn.app.wsgiapp import run
+
+    argv = ["gunicorn", "--check-config", "flaskapp", "-c", "src/gunicorn.conf.py"]
 
     with mock.patch.object(sys, "argv", argv):
         with pytest.raises(SystemExit) as excinfo:
