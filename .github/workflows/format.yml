@@ -3,17 +3,13 @@ name: Run Python linter and formatter
 on:
   push:
     branches: [ 'main', 'improved-api']
-    paths-ignore:
-      - '**.md'
-      - 'lab/**'
-      - 'assets/**'
+    paths:
+      - '**.py'
 
   pull_request:
     branches: [ 'main', 'improved-api' ]
-    paths-ignore:
-      - '**.md'
-      - 'lab/**'
-      - 'assets/**'
+    paths:
+      - '**.py'
 
 jobs:
     checks-format:
@@ -31,4 +27,6 @@ jobs:
         - name: Check linting with ruff
           run: |
             ruff check .
-            ruff format .
+        - name: Check formatting with black
+          run: |
+            black . --verbose
