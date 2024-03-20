@@ -3,10 +3,8 @@
 # Testing Tools
 pytest
 ephemeral-port-reserve
-pytest-playwright
 coverage
 pytest-cov
-axe-playwright-python
 
 pre-commit
 pip-tools
