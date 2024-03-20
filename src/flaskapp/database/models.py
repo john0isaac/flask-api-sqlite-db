@@ -67,6 +67,10 @@ class TestCase(db.Model):
         self.name = name
         self.description = description
 
+    @staticmethod
+    def get(test_case_id: int):
+        return db.session.get(TestCase, test_case_id)
+
     def insert(self):
         db.session.add(self)
         db.session.commit()
@@ -93,6 +97,10 @@ class Asset(db.Model):
 
     def __init__(self, name):
         self.name = name
+
+    @staticmethod
+    def get(asset_id: int):
+        return db.session.get(Asset, asset_id)
 
     def insert(self):
         db.session.add(self)
@@ -128,6 +136,10 @@ class Execution(db.Model):
         self.asset_id = asset_id
         self.status = status
         self.details = details
+
+    @staticmethod
+    def get(execution_id: int):
+        return db.session.get(Execution, execution_id)
 
     def insert(self):
         db.session.add(self)
