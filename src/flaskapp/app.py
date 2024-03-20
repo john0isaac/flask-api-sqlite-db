@@ -49,7 +49,9 @@ def create_app(test_config=None):
 
     @app.route("/")
     def index():
-        return jsonify({"success": True, "message": "Welcome to the test case management API"})
+        return jsonify(
+            {"success": True, "message": "Welcome to the test case management API"}
+        )
 
     # ----------------------------------------------------------------------------#
     # Test cases.
@@ -94,7 +96,7 @@ def create_app(test_config=None):
 
     @app.route("/tests/<int:test_case_id>", methods=["GET"])
     def get_test(test_case_id: int):
-        test_case = TestCase.query.get(test_case_id)
+        test_case = TestCase.get(test_case_id)
 
         if not test_case:
             abort(404, "The requested test case was not found in the database.")
@@ -107,7 +109,7 @@ def create_app(test_config=None):
         if "name" not in body:
             abort(400, "The request body must contain 'name' field.")
 
-        test_case = TestCase.query.get(test_case_id)
+        test_case = TestCase.get(test_case_id)
 
         if not test_case:
             abort(404, "The requested test case was not found in the database.")
@@ -131,14 +133,14 @@ def create_app(test_config=None):
 
     @app.route("/tests/<int:test_case_id>", methods=["DELETE"])
     def delete_test(test_case_id: int):
-        test_case = TestCase.query.get(test_case_id)
+        test_case = TestCase.get(test_case_id)
 
         if not test_case:
             abort(404, "The requested test case was not found in the database.")
 
         try:
             test_case.delete()
-            if not TestCase.query.get(test_case_id):
+            if not TestCase.get(test_case_id):
                 return jsonify(
                     {
                         "success": True,
@@ -155,7 +157,7 @@ def create_app(test_config=None):
 
     @app.route("/executions/<int:asset_id>", methods=["GET"])
     def get_executions(asset_id: int):
-        asset = Asset.query.get(asset_id)
+        asset = Asset.get(asset_id)
         if not asset:
             abort(404, "The requested asset was not found in the database.")
 
@@ -196,7 +198,12 @@ def create_app(test_config=None):
     @app.route("/executions", methods=["POST"])
     def add_execution():
         body = request.get_json()
-        if "status" not in body or "details" not in body or "asset_id" not in body or "test_case_id" not in body:
+        if (
+            "status" not in body
+            or "details" not in body
+            or "asset_id" not in body
+            or "test_case_id" not in body
+        ):
             abort(
                 400,
                 "The request body must contain 'status', 'details', 'asset_id', and 'test_case_id' fields.",
@@ -209,11 +216,11 @@ def create_app(test_config=None):
             req_asset_id = body.get("asset_id")
             req_test_case_id = body.get("test_case_id")
 
-            asset = Asset.query.get(req_asset_id)
+            asset = Asset.get(req_asset_id)
             if not asset:
                 abort(404, "The asset was not found in the database.")
 
-            test_case = TestCase.query.get(req_test_case_id)
+            test_case = TestCase.get(req_test_case_id)
             if not test_case:
                 abort(404, "The test case was not found in the database.")
 
@@ -244,35 +251,45 @@ def create_app(test_config=None):
     @app.errorhandler(400)
     def bad_request(error):
         return (
-            jsonify({"success": False, "error": error.code, "message": error.description}),
+            jsonify(
+                {"success": False, "error": error.code, "message": error.description}
+            ),
             error.code,
         )
 
     @app.errorhandler(404)
     def not_found(error):
         return (
-            jsonify({"success": False, "error": error.code, "message": error.description}),
+            jsonify(
+                {"success": False, "error": error.code, "message": error.description}
+            ),
             error.code,
         )
 
     @app.errorhandler(405)
     def method_not_allowed(error):
         return (
-            jsonify({"success": False, "error": error.code, "message": error.description}),
+            jsonify(
+                {"success": False, "error": error.code, "message": error.description}
+            ),
             error.code,
         )
 
     @app.errorhandler(422)
     def unprocessable(error):
         return (
-            jsonify({"success": False, "error": error.code, "message": error.description}),
+            jsonify(
+                {"success": False, "error": error.code, "message": error.description}
+            ),
             error.code,
         )
 
     @app.errorhandler(500)
     def internal_server_error(error):
         return (
-            jsonify({"success": False, "error": error.code, "message": error.description}),
+            jsonify(
+                {"success": False, "error": error.code, "message": error.description}
+            ),
             error.code,
         )
 
