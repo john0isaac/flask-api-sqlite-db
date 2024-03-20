@@ -3,7 +3,7 @@ import os
 
 from flask import Flask, abort, jsonify, request
 
-from src.database.models import (
+from flaskapp.database.models import (
     Asset,
     Execution,
     TestCase,
@@ -32,13 +32,15 @@ def create_app(test_config=None):
     is_prod_env = "RUNNING_IN_PRODUCTION" in os.environ
     if not is_prod_env:
         logging.info("Loading config.development.")
-        app.config.from_object("src.config.development")
+        app.config.from_object("flaskapp.config.development")
         setup_db(app)
+
         # db_drop_and_create_all(app)
     else:
         logging.info("Loading config.production.")
-        app.config.from_object("src.config.production")
+        app.config.from_object("flaskapp.config.production")
         setup_db(app)
+
         # db_drop_and_create_all(app)
 
     # ----------------------------------------------------------------------------#
