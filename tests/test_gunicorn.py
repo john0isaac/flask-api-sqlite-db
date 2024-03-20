@@ -8,7 +8,7 @@ import pytest
 def test_config_imports():
     from gunicorn.app.wsgiapp import run
 
-    argv = ["gunicorn", "--check-config", "flaskapp", "-c", "src/gunicorn.conf.py"]
+    argv = ["gunicorn", "--check-config", "flaskapp:create_app()", "-c", "src/gunicorn.conf.py"]
 
     with mock.patch.object(sys, "argv", argv):
         with pytest.raises(SystemExit) as excinfo:
