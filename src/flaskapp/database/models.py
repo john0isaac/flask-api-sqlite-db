@@ -4,7 +4,6 @@ Models for MySQL
 """
 
 from datetime import datetime
-from typing import List
 
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -59,7 +58,7 @@ class TestCase(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     description: Mapped[str] = mapped_column(String(500), nullable=True)
-    executions: Mapped[List["Execution"]] = relationship("Execution", back_populates="test_case")
+    executions: Mapped[list["Execution"]] = relationship("Execution", back_populates="test_case")
 
     def __init__(self, name, description):
         self.name = name
@@ -85,7 +84,7 @@ class Asset(db.Model):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
-    executions: Mapped[List["Execution"]] = relationship("Execution", back_populates="asset")
+    executions: Mapped[list["Execution"]] = relationship("Execution", back_populates="asset")
 
     def __init__(self, name):
         self.name = name
