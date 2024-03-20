@@ -2,7 +2,7 @@ import json
 import os
 import unittest
 
-from src.app import create_app
+from flaskapp import create_app
 
 
 class TestCaseManagementTestCase(unittest.TestCase):

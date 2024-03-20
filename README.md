@@ -46,7 +46,13 @@ To run the Flask application, follow these steps:
 
 ### Run the tests
 
-1. **Inside your virtual environment, execute the following command to run the tests**
+1. **Inside your virtual environment, execute the following command to install the development requirements:**
+
+    ```bash
+    pip install -r requirements-dev.txt
+    ```
+
+1. **Execute the following command to run the tests**
 
     ```bash
     python flask_test.py
