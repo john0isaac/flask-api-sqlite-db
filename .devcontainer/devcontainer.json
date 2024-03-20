@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-docker-compose
 {
-    "name": "flask_api_mysql_db",
+    "name": "flask_api_sqlite_db",
 
     // Update the 'dockerComposeFile' list if you have more compose files or use different names.
     // The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
@@ -13,8 +13,7 @@
     "workspaceFolder": "/workspace",
     "forwardPorts": [5000, 3306],
     "portsAttributes": {
-        "5000": {"label": "Web port", "onAutoForward": "notify"},
-        "3306": {"label": "MySQL Port", "onAutoForward": "silent"}
+        "5000": {"label": "Web port", "onAutoForward": "notify"}
     },
     "customizations": {
         "vscode": {
