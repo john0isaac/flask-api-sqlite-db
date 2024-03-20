@@ -4,6 +4,7 @@ Models for SQLite database
 """
 
 from datetime import datetime
+from typing import List  # noqa
 
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -58,7 +59,7 @@ class TestCase(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     description: Mapped[str] = mapped_column(String(500), nullable=True)
-    executions: Mapped[list["Execution"]] = relationship(
+    executions: Mapped[List["Execution"]] = relationship(  # noqa
         "Execution", back_populates="test_case"
     )
 
@@ -86,7 +87,7 @@ class Asset(db.Model):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
-    executions: Mapped[list["Execution"]] = relationship(
+    executions: Mapped[List["Execution"]] = relationship(  # noqa
         "Execution", back_populates="asset"
     )
 
