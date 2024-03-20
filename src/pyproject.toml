@@ -7,7 +7,6 @@ dependencies = [
     "sqlalchemy",
     "flask-migrate",
     "flask-sqlalchemy",
-    "mysql-connector-python",
     "gunicorn"
     ]
 
